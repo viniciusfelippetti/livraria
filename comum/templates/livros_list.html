@@ -1,0 +1,143 @@
+{% extends 'base-interno.html' %}
+{% load widget_tweaks %}
+{% load static %}
+{% block css %}
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="{% static 'css/table.css' %}"/>
+    <link rel="stylesheet" href="{% static 'css/forms.css' %}"/>
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md">
+            <div class="br-card ">
+                <div class="card-header">
+                    <div class="d-flex">
+                        <div class="ml-6">
+                            <div class="text-weight-semi-bold text-up-02">LIVROS</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-content ml-6 mr-6">
+                    <form method="get" id="livro_filtro_form">{% csrf_token %}
+                        {{ livro_filtro_form.media.js }}
+                        <div class="form-group row">
+                            <div class="col-sm-4 mb-6">
+                                <div class="br-input">
+                                    <label for="nome_livro">Nome do livro</label>
+                                    {% render_field livro_filtro_form.nome_livro required="False" %}
+                                </div>
+                            </div>
+                            <div class="col-sm-4 mb-6">
+                                <div class="br-input">
+                                    <label for="categoria">Categoria</label>
+                                    {% render_field livro_filtro_form.categoria class="campo-select" style="width:100%" required="False" %}
+                                </div>
+                            </div>
+                            <div class="col-sm-4 mb-6">
+                                <div class="br-input">
+                                    <label for="autor">Autor</label>
+                                    {% render_field livro_filtro_form.autor class="campo-select" style="width:100%" required="False" %}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-12 mt-6">
+                                <a class="br-button mr-3" href=""
+                                   type="button">Limpar
+                                </a>
+                                <button class="br-button primary active mr-3" type="submit" formmethod="get">
+                                    <i class="fas fa-search primary" style="padding-right: 20px;"></i>
+                                    Consultar
+                                </button>
+                            </div>
+                        </div>
+                        <span class="br-divider my-6" style="border-color:rgba(19, 81, 180, 1);
+                        ;"></span>
+                        <div class="row">
+                            {% for livro in livros %}
+                                <div class="col-sm-4 col-md-4 col-lg-3">
+                                    <div class="br-card">
+                                        <div class="card-header">
+                                            <div class="d-flex">
+                                                <div class="ml-3">
+                                                    <div class="text-weight-semi-bold text-up-02">{{ livro.nome_livro }}</div>
+                                                    <div>{{ livro.ano_publicacao }}</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="card-content"><img
+                                                src="https://covers.openlibrary.org/b/id/{{ livro.capa_id }}-L.jpg"
+                                                alt="Imagem de exemplo"/>
+                                        </div>
+                                        <div class="card-footer">
+                                            <div class="d-flex">
+                                                <div>
+                                                    <div class="scrimutilexamplemodal">
+                                                        <a class="br-button mr-3" href=""
+                                                           type="button">Mais informações
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                                <div class="ml-auto">
+                                                    <button class="br-button circle" type="button"
+                                                            aria-label="Ícone ilustrativo 3"><i
+                                                            class="fas fa-shopping-cart"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                        <div class="table-footer">
+                            {% if is_paginated %}
+                                <nav class="br-pagination" aria-label="Paginação de resultados">
+                                    <div class="pagination-arrows ml-auto ml-sm-0">
+                                        {% if page_obj.has_previous %}
+
+                                            <a class="br-button circle"
+                                               href="?page={{ page_obj.previous_page_number }}&estado={{ estado.GET.estado }}&municipio={{ request.GET.municipio }}&nome_capacitacao={{ request.GET.nome_capacitacao }}"
+                                               aria-label="Voltar página">
+                                                <i class="fas fa-angle-left" aria-hidden="true"></i>
+                                            </a>
+                                        {% endif %}
+                                        <div class="pagination-information d-none d-sm-flex"><span
+                                                class="current">{{ page_obj.number }}</span><span
+                                                class="per-page"></span>&nbsp;de&nbsp;<span
+                                                class="total">{{ paginator.num_pages }}</span>&nbsp;páginas
+                                        </div>
+                                        {% if page_obj.has_next %}
+                                            <a class="br-button circle"
+                                               href="?page={{ page_obj.next_page_number }}&estado={{ estado.GET.estado }}&municipio={{ request.GET.municipio }}&nome_capacitacao={{ request.GET.nome_capacitacao }}"
+                                               aria-label="Avançar página">
+                                                <i class="fas fa-angle-right" aria-hidden="true"></i>
+                                            </a>
+                                        {% endif %}
+                                    </div>
+                                </nav>
+                            {% endif %}
+                        </div>
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    </div>
+
+
+{% endblock %}
+
+{% block script %}
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="{% static 'js/gerenciamento_select2.js' %}"></script>
+    <script>
+        $("input[type=text]").keyup(function () {
+            $(this).val($(this).val().toUpperCase());
+        });
+        document.getElementById("id_nome_livro").required = false;
+        document.getElementById("id_autor").required = false;
+        document.getElementById("id_categoria").required = false;
+    </script>
+{% endblock %}

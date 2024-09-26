@@ -1,0 +1,210 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+    <title>Programa Cisternas</title>
+    <!-- Fonte Rawline-->
+    <link rel="stylesheet"
+          href="https://cdngovbr-ds.estaleiro.serpro.gov.br/design-system/fonts/rawline/css/rawline.css"/>
+    <!-- Fonte Raleway-->
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Raleway:300,400,500,600,700,800,900&amp;display=swap"/>
+    <!-- Design System de Governo-->
+    <link rel="stylesheet" href="{% static '@govbr-ds/core/dist/core.css' %}"/>
+    <!-- Fontawesome-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <!-- Georreferenciamento-->
+    {% block css %}
+    {% endblock %}
+</head>
+<body>
+<div class="template-base">
+    <header class="br-header mb-4" id="header" data-sticky="data-sticky">
+        <div class="container-lg">
+            <div class="header-top">
+                <div class="header-logo"><a href=""><img
+                        src="{% static 'img/gov-br-logo.png' %}"
+                        alt="logo"/></a><span class="br-divider vertical"></span>
+                    <div class="header-sign m-2">Ministério do Desenvolvimento e Assistência Social, Família e Combate à
+                        Fome
+                    </div>
+                </div>
+                <div class="header-actions">
+                    <div class="header-functions dropdown">
+                        <div class="br-item">
+                            <a href="" class="br-button circle small" type="button"
+                               aria-label="Funcionalidade 1"><i
+                                    class="fas fa-home" aria-hidden="true"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="header-login">
+                        <div class="header-sign-in">
+                            <a class="br-button secondary mr-3" type="button" href="{% url 'logout' %}"><i
+                                    class="fas fa-user"
+                                    aria-hidden="true"></i><span
+                                    class="d-sm-inline">Sair</span>
+                            </a>
+                        </div>
+                        <div class="header-avatar"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="header-bottom">
+                <div class="header-menu">
+                    <div class="header-menu-trigger" id="header-navigation">
+                        <button class="br-button small circle" type="button" aria-label="Menu" data-toggle="menu"
+                                data-target="#main-navigation" id="navigation"><i class="fas fa-bars"
+                                                                                  aria-hidden="true"></i>
+                        </button>
+                    </div>
+                    <div class="header-info">
+                        <div class="header-title">Programa Cisternas</div>
+                    </div>
+                </div>
+                <div class="header-search">
+                    <div class="header-sign m-2"><b>Usuário:</b> {{ request.user.nome }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <main class="d-flex flex-fill mb-5" id="main">
+        <div class="container-lg d-flex">
+            <div class="row col-lg-12">
+                <div class="br-menu push" id="main-navigation">
+                    <div class="menu-container">
+                        <div class="menu-panel">
+                            <div class="menu-header">
+                                <div class="menu-title"><img
+                                        src="{% static 'img/gov-br-logo.png' %}"
+                                        alt="Imagem ilustrativa"/><span>Programa de Cisternas</span></div>
+                                <div class="menu-close">
+                                    <button class="br-button circle" type="button" aria-label="Fechar o menu"
+                                            data-dismiss="menu"><i class="fas fa-times" aria-hidden="true"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <nav class="menu-body">
+                                <div class="menu-folder"><a class="menu-item" href="javascript: void(0)"><span
+                                        class="icon"><i class="fas fa-folder" aria-hidden="true"></i></span><span
+                                        class="content">Administração</span></a>
+                                    <ul>
+                                        {% if 'administracao.view_convenio' in user.get_all_permissions %}
+                                            <li><a class="menu-item" href=""><span
+                                                    class="icon"><i
+                                                    class="fas fa-file" aria-hidden="true"></i></span><span
+                                                    class="content">Convênios</span></a>
+                                            </li>
+                                        {% endif %}
+                                        {% if 'administracao.view_contrato' in user.get_all_permissions %}
+                                            <li><a class="menu-item" href=""><span
+                                                    class="icon"><i
+                                                    class="fas fa-file-alt" aria-hidden="true"></i></span><span
+                                                    class="content">Contratos</span></a>
+                                            </li>
+                                        {% endif %}
+                                        {% if 'beneficiarios.view_tecnologia' in user.get_all_permissions %}
+                                            <li><a class="menu-item" href=""><span
+                                                    class="icon"><i
+                                                    class="fas fa-lightbulb" aria-hidden="true"></i></span><span
+                                                    class="content">Tecnologias</span></a>
+                                            </li>
+                                        {% endif %}
+                                        {% if 'execucao.view_tipocapacitacao' in user.get_all_permissions %}
+                                            <li><a class="menu-item" href=""><span
+                                                    class="icon"><i
+                                                    class="fas fa-edit" aria-hidden="true"></i></span><span
+                                                    class="content">Capacitações</span></a>
+                                            </li>
+                                        {% endif %}
+                                        <li>
+                                            <a class="menu-item" href=""><span class="icon"><i
+                                                    class="fas fa-image" aria-hidden="true"></i></span>
+                                                <span class="content">Gerenciar logos</span></a>
+                                        </li>
+                                        {% if 'parceiros.view_parceiros' in user.get_all_permissions %}
+                                            <li><a class="menu-item" href=""><span
+                                                    class="icon"><i
+                                                    class="fas fa-handshake" aria-hidden="true"></i></span><span
+                                                    class="content">Parceiros</span></a>
+                                            </li>
+                                        {% endif %}
+                                        {% if 'auth.view_group' in user.get_all_permissions or 'autenticacao.view_usuario' in user.get_all_permissions %}
+                                            <div class="menu-folder">
+                                                <a class="menu-item" href="javascript: void(0)">
+                                                    <span class="icon"><i class="fas fa-user-check"
+                                                                          aria-hidden="true"></i></span>
+                                                    <span class="content">Autenticação</span>
+                                                </a>
+                                                <ul>
+                                                    {% if 'auth.view_group' in user.get_all_permissions %}
+                                                        <li>
+                                                            <a class="menu-item" href="">
+                                                                <span class="icon"><i class="fas fa-users"
+                                                                                      aria-hidden="true"></i></span>
+                                                                <span class="content">Grupos</span>
+                                                            </a>
+                                                        </li>
+                                                    {% endif %}
+                                                    {% if 'autenticacao.view_usuario' in user.get_all_permissions %}
+                                                        <li>
+                                                            <a class="menu-item" href="">
+                                                                <span class="icon"><i class="fas fa-user"
+                                                                                      aria-hidden="true"></i></span>
+                                                                <span class="content">Usuários</span>
+                                                            </a>
+                                                        </li>
+                                                    {% endif %}
+                                                </ul>
+                                            </div>
+                                        {% endif %}
+                                    </ul>
+                                </div>
+                            </nav>
+                            <div class="menu-footer d-sm-none">
+                                <div class="menu-info">
+                                    <div class="text-center text-down-01">Todo o conteúdo deste site está publicado sob
+                                        a licença <strong>Creative Commons Atribuição-Sem Derivações 3.0</strong></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="menu-scrim" data-dismiss="menu" tabindex="0"></div>
+                    </div>
+                </div>
+                <div class="col mb-5">
+                    <div class="main-content pl-sm-3 mt-4" id="main-content">
+                        {% block content %}
+                        {% endblock %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <footer class="br-footer pt-3" id="footer">
+        <div class="container-lg">
+            <div class="info">
+                <div class="text-down-01 text-medium pb-3">Texto destinado a exibição de informações relacionadas à&nbsp;<strong><a
+                        href="">licença de uso</a>.</strong></div>
+            </div>
+        </div>
+    </footer>
+</div>
+{% block script %}
+{% endblock %}
+<script src="{% static '/@govbr-ds/core/dist/core-init.js' %}"></script>
+<script src="{% static '/@govbr-ds/core/dist/core.min.js' %}"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+
+</body>
+</html>
