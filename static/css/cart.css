@@ -1,0 +1,47 @@
+
+.container {
+    display: flex;
+    justify-content: space-between;
+    margin: 20px;
+}
+
+.products {
+    width: 70%;
+}
+
+.cart {
+    position: fixed;  /* Fix the cart to the side of the screen */
+    right: 0;         /* Position it on the right */
+    top: 20%;         /* Position it slightly down from the top */
+    width: 200px;     /* Set a width for the cart sidebar */
+    background-color: #f9f9f9;  /* Light background color */
+    border-left: 1px solid #ddd;  /* Add a subtle border */
+    padding: 15px;    /* Add some padding inside the cart */
+    box-shadow: -2px 0 5px rgba(0,0,0,0.1);  /* Add a shadow for depth */
+    z-index: 99999999;    /* Ensure it sits above other elements */
+    height: 80%;      /* Make it scrollable if items overflow */
+    overflow-y: auto; /* Enable vertical scrolling */
+}
+
+.cart h3 {
+    margin-top: 0;
+}
+
+#cart-items {
+    max-height: 100%;
+    overflow-y: auto;
+    margin-bottom: 20px;
+}
+
+.cart-total {
+    margin-top: 20px;
+}
+
+#checkout-btn {
+    width: 100%;
+    padding: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+}

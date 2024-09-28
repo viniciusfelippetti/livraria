@@ -1,0 +1,121 @@
+{% extends 'base-interno.html' %}
+{% load widget_tweaks %}
+{% load static %}
+{% block css %}
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet"/>
+<link rel="stylesheet" href="{% static 'css/table.css' %}"/>
+<link rel="stylesheet" href="{% static 'css/forms.css' %}"/>
+{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-sm-6 col-md-4 col-lg-3">
+        <div class="br-card m-3"><img
+                src="https://covers.openlibrary.org/b/id/{{ livro.capa_id }}-L.jpg"
+                alt="Imagem de exemplo"/>
+        </div>
+    </div>
+    <div class="col-md ml-8">
+        <div class="br-card ">
+            <div class="card-header">
+                <div class="d-flex">
+                    <div class="ml-6">
+                        <div class="text-weight-semi-bold text-up-02">
+                            {{ livro.nome_livro }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-content ml-6 mr-6">
+                <div class="br-tab">
+                    <nav class="tab-nav">
+                        <ul>
+                            <li class="tab-item active">
+                                <button type="button" data-panel="panel-1-icon"><span class="name"><span
+                                        class="d-flex flex-column flex-sm-row"><span
+                                        class="icon mb-1 mb-sm-0 mr-sm-1"><i class="fas fa-image"
+                                                                             aria-hidden="true"></i></span><span
+                                        class="name">Detalhes</span></span></span></button>
+                            </li>
+                        </ul>
+                    </nav>
+                    <div class="tab-content">
+                        <div class="tab-panel active" id="panel-1-icon">
+                            <div class="row mt-3">
+                                <div class="col-12">
+                                    <div class="br-card hover">
+                                        <div class="card-content">
+                                            <p><strong>Autoria:</strong>
+                                                {% for autor in livro.autor.all %}
+                                                {{ autor }} |
+                                                {% endfor %}
+                                            </p>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-12">
+                                    <div class="br-card hover">
+                                        <div class="card-content">
+                                            <p><strong>Categoria:</strong>
+                                                {% for categoria in livro.categoria.all %}
+                                                {{ categoria }} |
+                                                {% endfor %}
+                                            </p>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-12">
+                                    <div class="br-card hover">
+                                        <div class="card-content">
+                                            <p><strong>Publicadora:</strong>
+                                                {% for publicadora in livro.publicadora.all %}
+                                                {{ publicadora }} |
+                                                {% endfor %}
+                                            </p>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mt-3">
+                                <div class="col-6">
+                                    <div class="br-card hover">
+                                        <div class="card-content">
+                                            <p><strong>Ano de publicação:</strong> {{ livro.ano_publicacao }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="br-card hover">
+                                        <div class="card-content">
+                                            <p><strong>Número de páginas:</strong> {{ livro.numero_paginas }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer mt-4">
+                        <a class="br-button" type="button" href="{% url 'livros' %}">Voltar
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    {% endblock %}
+
+    {% block script %}
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="{% static 'js/gerenciamento_select2.js' %}"></script>
+    <script src="{% static 'js/jquery.mask.js' %}"></script>
+
+    {% endblock %}

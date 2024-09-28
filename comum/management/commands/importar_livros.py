@@ -9,7 +9,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
 
-        url = "https://openlibrary.org/search.json?q=the+lord+of+the+rings&page=2&fields=title,author_name,first_publish_year,subject,number_of_pages_median,publisher,cover_i"
+        url = "https://openlibrary.org/search.json?q=the+lord+of+the+rings&page=2&fields=title,author_name,first_publish_year,subject,number_of_pages_median,publisher,cover_i,want_to_read_count,%20already_read_count,currently_reading_count"
         headers = {
             "User-Agent": "MyAppName/1.0 (myemail@example.com)"
         }

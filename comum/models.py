@@ -1,5 +1,8 @@
 from django.db import models
 
+from autenticacao.models import Usuario
+
+
 # Create your models here.
 class Categoria(models.Model):
     nome = models.CharField(max_length=150)
@@ -21,6 +24,7 @@ class Autor(models.Model):
 
 class Livro(models.Model):
     nome_livro = models.CharField(max_length=200)
+    preco = models.FloatField(default=10.0)
     ano_publicacao = models.IntegerField()
     numero_paginas = models.IntegerField()
     autor = models.ManyToManyField(Autor, verbose_name="Autores")
@@ -33,3 +37,11 @@ class Livro(models.Model):
 
     class Meta:
         ordering = ('nome_livro',)
+
+class ItemCompra(models.Model):
+    quantidade = models.IntegerField()
+    livro = models.ForeignKey(Livro, on_delete=models.CASCADE)
+
+class Compra(models.Model):
+    usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
+    itens = models.ManyToManyField(ItemCompra, verbose_name="Itens da compra")

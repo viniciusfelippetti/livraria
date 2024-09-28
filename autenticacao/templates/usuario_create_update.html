@@ -1,0 +1,124 @@
+{% extends 'base-interno.html' %}
+{% load widget_tweaks %}
+{% load static %}
+{% block css %}
+    <link rel="stylesheet" href="{% static 'css/forms.css' %}"/>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="{% static 'css/table.css' %}"/>{% endblock %}
+{% block content %}
+    <div class="row">
+        <div class="col-md">
+            <div class="br-card ">
+                <div class="card-header">
+                    <div class="d-flex"><span class="br-avatar mt-1">
+                        <div class="ml-6">
+                            <div class="text-weight-semi-bold text-up-02">Adicionar Usuário</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-content ml-6 mr-6">
+                    <form method="post" id="usuario_form">{% csrf_token %}
+                        {{ form.media.js }}
+                        <div class="form-group row">
+                            <div class="col-sm-12 mb-3">
+                                <div class="br-input">
+                                    <label for="id_username">Login</label>
+                                        {% render_field form.cpf class="form-control" placeholder="CPF" %}
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-12 mb-3">
+                                <div class="br-input">
+                                    <label for="id_email">Email</label>
+                                    {% render_field form.email class="form-control" placeholder="E-mail" %}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-12 mb-3">
+                                <div class="br-input">
+                                    <label for="id_nome">Nome</label>
+                                    {% render_field form.nome class="form-control" placeholder="Nome Completo" %}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-12 mb-3">
+                                <div class="br-input">
+                                    <label for="id_endereco">Endereço</label>
+                                    {% render_field form.endereco class="form-control" placeholder="Endereço" %}
+                                </div>
+                            </div>
+                        </div>
+                        {% if not request.resolver_match.url_name == "usuarios_update" %}
+                            <div class="form-group row">
+                                <div class="col-sm-12 mb-3">
+                                    <div class="br-input">
+                                        <label for="email">Senha</label>
+                                        {% render_field form.password1 class="form-control" placeholder="Senha" %}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-sm-12 mb-3">
+                                    <div class="br-input">
+                                        <label for="email">Confirmar Senha</label>
+                                        {% render_field form.password2 class="form-control" placeholder="Senha" %}
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}
+                        <div class="form-group row">
+                            <div class="col-sm-6 mb-3">
+                                <div class="br-checkbox">
+                                    {% render_field form.is_active type="checkbox" %}
+                                    <label for="id_is_active">Ativo</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            {% if form.errors %}
+                                {% for field in form %}
+                                    {% for error in field.errors %}
+
+                                        <div class="br-message danger" role="alert">
+                                            <div class="icon"><i class="fas fa-times-circle fa-lg"
+                                                                 aria-hidden="true"></i>
+                                            </div>
+                                            <div class="content"><span
+                                                    class="message-title">Erro no campo {{ field.label }}.</span><span
+                                                    class="message-body"> {{ error }}</span>
+                                            </div>
+                                            <div class="close">
+                                                <button class="br-button circle small" type="button"
+                                                        aria-label="content"><i
+                                                        class="fas fa-times" aria-hidden="true"></i></button>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                {% endfor %}
+                            {% endif %}
+                            <button type="submit" class="br-button primary mr-3"><i class="fas fa-save"
+                                                                                    style="padding-right: 20px;"></i>
+                                Salvar
+                            </button>
+                            <a href="{% url 'livros' %}" class="br-button">Cancelar</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block script %}
+    <script src="{% static 'js/gerenciamento_select2.js' %}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script>
+        $("input[type=text]").keyup(function () {
+            $(this).val($(this).val().toUpperCase());
+        });
+    </script>
+{% endblock %}

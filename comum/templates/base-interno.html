@@ -6,7 +6,7 @@
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
-    <title>Programa Cisternas</title>
+    <title>Livraria TSMX</title>
     <!-- Fonte Rawline-->
     <link rel="stylesheet"
           href="https://cdngovbr-ds.estaleiro.serpro.gov.br/design-system/fonts/rawline/css/rawline.css"/>
@@ -19,7 +19,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css"/>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     <!-- Georreferenciamento-->
+    <link rel="stylesheet" href="{% static 'css/cart.css' %}"/>
     {% block css %}
+
     {% endblock %}
 </head>
 <body>
@@ -27,22 +29,10 @@
     <header class="br-header mb-4" id="header" data-sticky="data-sticky">
         <div class="container-lg">
             <div class="header-top">
-                <div class="header-logo"><a href=""><img
-                        src="{% static 'img/gov-br-logo.png' %}"
-                        alt="logo"/></a><span class="br-divider vertical"></span>
-                    <div class="header-sign m-2">Ministério do Desenvolvimento e Assistência Social, Família e Combate à
-                        Fome
-                    </div>
+                <div class="header-logo">
                 </div>
                 <div class="header-actions">
-                    <div class="header-functions dropdown">
-                        <div class="br-item">
-                            <a href="" class="br-button circle small" type="button"
-                               aria-label="Funcionalidade 1"><i
-                                    class="fas fa-home" aria-hidden="true"></i>
-                            </a>
-                        </div>
-                    </div>
+                    {% if request.user.is_authenticated %}
                     <div class="header-login">
                         <div class="header-sign-in">
                             <a class="br-button secondary mr-3" type="button" href="{% url 'logout' %}"><i
@@ -53,6 +43,18 @@
                         </div>
                         <div class="header-avatar"></div>
                     </div>
+                    {% else %}
+                    <div class="header-login">
+                        <div class="header-sign-in">
+                            <a class="br-button secondary mr-3" type="button" href="{% url 'login' %}"><i
+                                    class="fas fa-user"
+                                    aria-hidden="true"></i><span
+                                    class="d-sm-inline">Entrar</span>
+                            </a>
+                        </div>
+                        <div class="header-avatar"></div>
+                    </div>
+                    {% endif %}
                 </div>
             </div>
             <div class="header-bottom">
@@ -64,13 +66,15 @@
                         </button>
                     </div>
                     <div class="header-info">
-                        <div class="header-title">Programa Cisternas</div>
+                        <div class="header-title">Livraria TSMX</div>
                     </div>
                 </div>
+                {% if request.user.is_authenticated %}
                 <div class="header-search">
                     <div class="header-sign m-2"><b>Usuário:</b> {{ request.user.nome }}
                     </div>
                 </div>
+                {% endif %}
             </div>
         </div>
     </header>
@@ -82,8 +86,8 @@
                         <div class="menu-panel">
                             <div class="menu-header">
                                 <div class="menu-title"><img
-                                        src="{% static 'img/gov-br-logo.png' %}"
-                                        alt="Imagem ilustrativa"/><span>Programa de Cisternas</span></div>
+                                        src="{% static 'img/tsmx_logo.jpeg' %}"
+                                        alt="Imagem ilustrativa"/><span>Livraria TSMX</span></div>
                                 <div class="menu-close">
                                     <button class="br-button circle" type="button" aria-label="Fechar o menu"
                                             data-dismiss="menu"><i class="fas fa-times" aria-hidden="true"></i>
@@ -91,81 +95,24 @@
                                 </div>
                             </div>
                             <nav class="menu-body">
-                                <div class="menu-folder"><a class="menu-item" href="javascript: void(0)"><span
-                                        class="icon"><i class="fas fa-folder" aria-hidden="true"></i></span><span
-                                        class="content">Administração</span></a>
-                                    <ul>
-                                        {% if 'administracao.view_convenio' in user.get_all_permissions %}
-                                            <li><a class="menu-item" href=""><span
-                                                    class="icon"><i
-                                                    class="fas fa-file" aria-hidden="true"></i></span><span
-                                                    class="content">Convênios</span></a>
-                                            </li>
-                                        {% endif %}
-                                        {% if 'administracao.view_contrato' in user.get_all_permissions %}
-                                            <li><a class="menu-item" href=""><span
-                                                    class="icon"><i
-                                                    class="fas fa-file-alt" aria-hidden="true"></i></span><span
-                                                    class="content">Contratos</span></a>
-                                            </li>
-                                        {% endif %}
-                                        {% if 'beneficiarios.view_tecnologia' in user.get_all_permissions %}
-                                            <li><a class="menu-item" href=""><span
-                                                    class="icon"><i
-                                                    class="fas fa-lightbulb" aria-hidden="true"></i></span><span
-                                                    class="content">Tecnologias</span></a>
-                                            </li>
-                                        {% endif %}
-                                        {% if 'execucao.view_tipocapacitacao' in user.get_all_permissions %}
-                                            <li><a class="menu-item" href=""><span
-                                                    class="icon"><i
-                                                    class="fas fa-edit" aria-hidden="true"></i></span><span
-                                                    class="content">Capacitações</span></a>
-                                            </li>
-                                        {% endif %}
-                                        <li>
-                                            <a class="menu-item" href=""><span class="icon"><i
-                                                    class="fas fa-image" aria-hidden="true"></i></span>
-                                                <span class="content">Gerenciar logos</span></a>
-                                        </li>
-                                        {% if 'parceiros.view_parceiros' in user.get_all_permissions %}
-                                            <li><a class="menu-item" href=""><span
-                                                    class="icon"><i
-                                                    class="fas fa-handshake" aria-hidden="true"></i></span><span
-                                                    class="content">Parceiros</span></a>
-                                            </li>
-                                        {% endif %}
-                                        {% if 'auth.view_group' in user.get_all_permissions or 'autenticacao.view_usuario' in user.get_all_permissions %}
-                                            <div class="menu-folder">
-                                                <a class="menu-item" href="javascript: void(0)">
-                                                    <span class="icon"><i class="fas fa-user-check"
-                                                                          aria-hidden="true"></i></span>
-                                                    <span class="content">Autenticação</span>
-                                                </a>
-                                                <ul>
-                                                    {% if 'auth.view_group' in user.get_all_permissions %}
-                                                        <li>
-                                                            <a class="menu-item" href="">
-                                                                <span class="icon"><i class="fas fa-users"
-                                                                                      aria-hidden="true"></i></span>
-                                                                <span class="content">Grupos</span>
-                                                            </a>
-                                                        </li>
-                                                    {% endif %}
-                                                    {% if 'autenticacao.view_usuario' in user.get_all_permissions %}
-                                                        <li>
-                                                            <a class="menu-item" href="">
-                                                                <span class="icon"><i class="fas fa-user"
-                                                                                      aria-hidden="true"></i></span>
-                                                                <span class="content">Usuários</span>
-                                                            </a>
-                                                        </li>
-                                                    {% endif %}
-                                                </ul>
-                                            </div>
-                                        {% endif %}
-                                    </ul>
-                                </div>
+                                <ul>
+                                    <li>
+                                        <a class="menu-item" href="{% url 'livros' %}"><span class="icon"><i
+                                                class="fas fa-book" aria-hidden="true"></i></span>
+                                            <span class="content">Livros</span></a>
+                                    </li>
+                                    <li>
+                                        <a class="menu-item" href="{% url 'compras_detail' %}"><span class="icon"><i
+                                                class="fas fa-list-alt" aria-hidden="true"></i></span>
+                                            <span class="content">Histórico de Compras</span></a>
+                                    </li>
+                                    <li>
+                                        <a class="menu-item" href="{% url 'usuarios_add' %}"><span class="icon"><i
+                                                class="fas fa-user-plus" aria-hidden="true"></i></span>
+                                            <span class="content">Criar Usuário</span></a>
+                                    </li>
+                                </ul>
+
                             </nav>
                             <div class="menu-footer d-sm-none">
                                 <div class="menu-info">
@@ -179,6 +126,17 @@
                 </div>
                 <div class="col mb-5">
                     <div class="main-content pl-sm-3 mt-4" id="main-content">
+                        {% if not request.resolver_match.url_name == "carrinho" %}
+                        <div class="cart" style="display: none" id="cart_teste">
+                            <h3>Seu carrinho</h3>
+                            <div id="cart-items">
+                            </div>
+                            <button id="finalizar-compra-btn" class="br-button primary active mr-3" type="button"
+                                    onclick="finalizarCompra()">
+                                Pagamento
+                            </button>
+                        </div>
+                        {% endif %}
                         {% block content %}
                         {% endblock %}
                     </div>
@@ -197,6 +155,127 @@
 </div>
 {% block script %}
 {% endblock %}
+<script>
+    window.onload = function () {
+        updateCartUI({{ request.session.cart|safe }});
+    }
+
+    function addToCart(livroId) {
+        // Send AJAX request to add the book to the cart
+        fetch('{% url "add_to_cart_ajax" %}', {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': '{{ csrf_token }}',
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: `livro_id=${livroId}&quantity=1`,  // Adjust quantity if needed
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    const finalizarCompraBtn = document.getElementById('finalizar-compra-btn');
+                    finalizarCompraBtn.disabled = false;  // Enable the button
+                    updateCartUI(data.cart);
+                }
+            });
+    }
+
+    function updateCartUI(cart) {
+        const cartItemsDiv = document.getElementById('cart-items');
+        const cartdiv = document.getElementById('cart_teste');
+        cartItemsDiv.innerHTML = '';
+
+        Object.entries(cart).forEach(([item_id, item]) => {
+            cartItemsDiv.innerHTML += `
+            <div id="${item_id}">
+                <p>${item.name} - R$${item.price}</p>
+                <p>Quantidade: <span id="quantidade-${item_id}">${item.quantity}</span></p>
+                <button class="br-button circle" type="button" onclick="removeFromCart('${item_id}')">
+                    <i class="fas fa-trash-alt"></i>
+                </button>
+            </div>
+        `;
+        });
+        if (Object.keys(cart).length) {
+            cartdiv.style.display = "block";
+        }
+    }
+</script>
+<script>
+    function removeFromCart(livroId) {
+        // Send AJAX request to remove the book from the cart
+        fetch('{% url "remove_from_cart_ajax" %}', {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': '{{ csrf_token }}',
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: `livro_id=${livroId}`,
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                if (data.status === 'success') {
+                    document.getElementById(`${livroId}`).remove();
+                }
+                const cartItemsDiv = document.getElementById('cart-items');
+                const finalizarCompraBtn = document.getElementById('finalizar-compra-btn');
+                const cartdiv = document.getElementById('cart_teste');
+
+                // If no items are left in the cart, disable the "Finalizar Compra" button
+                if (cartItemsDiv.children.length === 0) {
+                    cartdiv.style.display = "none";
+                }
+
+
+            });
+    }
+</script>
+<script>
+    function finalizarCompra() {
+        const cartItemsDiv = document.getElementById('cart-items');
+        const cartItems = cartItemsDiv.children;
+        let items = [];
+
+        // Loop through each cart item to collect the necessary data
+        for (let i = 0; i < cartItems.length; i++) {
+            const cartItem = cartItems[i];
+            console.log(cartItems[i]);
+            const livroId = cartItem.getAttribute('id');
+            const quantidade = document.getElementById(`quantidade-${livroId}`).innerHTML;
+            if (livroId && quantidade) {
+                items.push([livroId, quantidade]);
+                console.log(items);
+            }
+        }
+
+        // Prepare the data to be sent to the server
+        const data = new URLSearchParams();
+        data.append('items', JSON.stringify(items));  // Convert array to JSON string
+
+        // Send AJAX request to the server to handle the finalization of the purchase
+        fetch('{% url "finalizar_compra_url" %}', {  // Replace with your actual URL name
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': '{{ csrf_token }}',
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: data.toString()
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    window.location.href = '{% url "carrinho" %}';
+                } else {
+                    // Handle errors if the purchase failed
+                    console.error('Purchase failed:', data);
+                }
+            })
+            .catch(error => {
+                console.error('Error in AJAX request:', error);
+            });
+    }
+</script>
 <script src="{% static '/@govbr-ds/core/dist/core-init.js' %}"></script>
 <script src="{% static '/@govbr-ds/core/dist/core.min.js' %}"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
